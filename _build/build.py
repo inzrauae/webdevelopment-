@@ -1,6 +1,6 @@
 import sys, io, re, json, html as htmllib
 ROOT, S = sys.argv[1], sys.argv[2]
-CSSV, JSV = '32', '17'
+CSSV, JSV = '34', '17'
 # Your live domain, e.g. 'https://www.webdesignsrilanka.lk' (no trailing slash).
 # When set, canonical URLs, og:url/og:image, breadcrumbs schema and sitemap.xml are generated.
 SITE = 'https://webdevelopment.lk'
@@ -101,7 +101,70 @@ def devices(slug, lazy=True):
             </div>
             <div class="pf-phone"><img src="images/portfolio/{slug}-mobile.jpg" alt="{n} website design by Web Development Sri Lanka, mobile view"{l} /></div>'''
 
-def card(p):
+# ---------------------------------------------------------------- client reviews (slug: role, quote)
+REVIEWS = {
+  'speedtech': ('Business Owner', 'We wanted a professional e-commerce website to showcase our computer accessories, spare parts and repair services. The team understood our business requirements and created a modern, user-friendly website. Really happy with the design and overall functionality.'),
+  'lastsolution': ('Managing Director', 'Excellent website development service. They created a professional corporate website that presents our CCTV and security solutions clearly. The product catalogue and enquiry features are particularly useful for our business.'),
+  'officialcodex': ('Founder', 'We needed something different from a traditional clothing website. The team understood our streetwear brand identity and delivered a bold, modern online store that matches our vision. Highly recommended for fashion brands.'),
+  'islandtoursceylon': ('Business Owner', 'Our car rental and tourism business needed a website that international travellers could navigate easily. They developed a beautiful platform showcasing our vehicles, airport transfers and tour services. Very pleased with the outcome.'),
+  'ruvinara': ('Managing Director', 'Presenting premium Ceylon gemstones online requires an elegant and trustworthy design. The team captured our brand identity beautifully. The website looks sophisticated and professionally represents our jewellery business.'),
+  'lankatourdriver': ('Owner', 'They created a fantastic tourism website for our private tours and travel packages. The layout makes it easy for international customers to explore destinations and plan their holidays. A professional team that understands the tourism industry.'),
+  'dagtech': ('Director', 'We are very satisfied with our new corporate website. It clearly communicates our telecommunications and networking solutions while maintaining a professional business image. Great attention to detail throughout the development.'),
+  'dooo': ('Brand Owner', 'Absolutely love the clean and elegant design of our online clothing store. The website reflects our fashion brand perfectly without unnecessary complications. A great choice for anyone looking for modern e-commerce development.'),
+  'themerchlist': ('Management Team', 'Our business requires a comprehensive e-commerce platform with a large product catalogue and custom merchandise options. The website development team demonstrated a strong understanding of our requirements and the UAE market. Excellent work.'),
+  'mypalmfit': ('Brand Manager', 'We wanted an energetic, premium online shopping experience for our activewear brand. The website design matches our brand personality and makes browsing collections simple. Very happy with the overall presentation.'),
+  'fadeandblade': ('Business Owner', 'The website is exactly what our mobile barber business needed. Customers can easily explore our services and contact us through WhatsApp for bookings. Simple, professional and effective.'),
+  'gauraconstruction': ('Managing Director', 'Our new website professionally showcases our construction services and project portfolio. The house budget planning feature is a valuable addition for potential clients. Excellent understanding of construction industry requirements.'),
+  'goldpricetoday': ('Platform Owner', 'Developing a gold price platform requires more than just good design. The team created a clean and functional web application that presents gold rates and price charts in an easy-to-understand format. Great technical expertise.'),
+  'possystem': ('CEO', 'We needed a modern website that clearly communicates our software capabilities to retail and restaurant businesses. The design, structure and presentation reflect our technology-focused brand. A great example of professional software website development.'),
+  'flyse': ('Business Owner', 'The team created a beautiful travel website that presents Sri Lanka as an attractive holiday destination for Swedish travellers. The design feels welcoming, professional and suitable for our international audience.'),
+  'tuktukceylonrides': ('Founder', 'Our tuk tuk rental website needed to be attractive, informative and easy to use for foreign travellers. The team understood our concept and created a platform that reflects the adventurous experience we offer in Sri Lanka.'),
+  'esms': ('Platform Manager', 'We wanted a professional SaaS website that explains our SMS gateway, pricing and developer API without making things complicated. The result is clean, modern and suitable for both businesses and developers.'),
+  '4u': ('Founder', 'Building a classifieds marketplace involves many different categories and user requirements. The team created a well-organised platform with a modern interface that makes browsing listings straightforward. Impressive development capabilities.'),
+  'rblmarketing': ('Managing Director', 'Our agency needed a website that effectively presents our marketing services and creative capabilities. The team delivered a modern design that reflects our business identity and makes our services easy to understand.'),
+  'rblmarketingagency': ('CEO', 'We had a unique business concept that required custom web application development rather than a standard website. The team understood our requirements, including member dashboards, daily tasks and withdrawal functionality. Very pleased with the platform.'),
+  'seoservice': ('Business Owner', 'As an SEO-focused business, we needed a website with a strong technical foundation, clear service pages and a professional appearance. The team created a modern website that represents our expertise and supports our digital marketing objectives.'),
+  'uphonerepair': ('Business Owner', 'Our repair business needed a professional website where customers could easily find repair services and make online bookings. The new design is clean, mobile-friendly and well suited to our industry. Highly recommended for service-based businesses.'),
+}
+# Reviews from our own or sister businesses are kept but not shown as client reviews
+OWN = {'seoservice', 'esms'}
+STARS = '<div class="stars" role="img" aria-label="Rated 5 out of 5">' + ''.join('<svg aria-hidden="true"><use href="#i-star"/></svg>' for _ in range(5)) + '</div>'
+
+def initials(name):
+    w = [x for x in re.sub(r'&[a-z]+;|[^A-Za-z0-9 ]', ' ', plain(name)).split() if x]
+    return (w[0][0] + (w[1][0] if len(w) > 1 else w[0][1:2])).upper() if w else '?'
+
+def review_card(slug):
+    role, quote = REVIEWS[slug]
+    prj = next(p for p in PROJECTS if p[0] == slug)
+    name, url, disp = prj[1], prj[2], prj[3]
+    return f'''      <figure class="t-card">
+        <svg class="q" aria-hidden="true"><use href="#i-quote"/></svg>
+        {STARS}
+        <blockquote>{quote}</blockquote>
+        <figcaption><span class="t-av" aria-hidden="true">{initials(name)}</span><div><b>{name}</b><span>{role} · <a href="{url}" target="_blank" rel="noopener">{disp}</a></span></div></figcaption>
+      </figure>'''
+
+def testimonials(slugs, sub='Reviews from Sri Lankan and international businesses we have designed and built websites for.'):
+    return f'''<!-- ================= TESTIMONIALS ================= -->
+<section class="section testimonials">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Client Reviews</span>
+      <h2>What Our <span class="accent">Clients Say</span></h2>
+      <p>{sub}</p>
+    </div>
+    <div class="t-grid">
+{chr(10).join(review_card(s) for s in slugs)}
+    </div>
+    <div class="center-btn"><a href="portfolio.html" class="btn btn-light btn-lg">See All Client Projects {ARROW}</a></div>
+  </div>
+</section>
+'''
+HOME_REVIEWS = ['speedtech', 'ruvinara', 'islandtoursceylon', 'themerchlist', 'goldpricetoday', 'uphonerepair']
+ABOUT_REVIEWS = ['lastsolution', 'officialcodex', 'lankatourdriver', 'mypalmfit', 'possystem', 'gauraconstruction']
+
+def card(p, review=False):
     slug, name, url, disp, cat, tag, desc = p
     return f'''        <article class="pf-card" data-cat="{cat}">
           <div class="pf-media">
@@ -111,6 +174,7 @@ def card(p):
             <span class="tag">{tag}</span>
             <h3>{name}</h3>
             <p>{desc}</p>
+            {(f'<blockquote class="pf-review">{STARS}<p>&ldquo;{REVIEWS[slug][1]}&rdquo;</p><cite>{REVIEWS[slug][0]}, {name}</cite></blockquote>') if review and slug in REVIEWS and slug not in OWN else ''}
             <a class="pf-link" href="{url}" target="_blank" rel="noopener">{disp} {ic('arrow')}</a>
           </div>
         </article>'''
@@ -501,7 +565,7 @@ page('portfolio.html', 'Web Design Portfolio Sri Lanka | Websites We Have Built'
       <button data-filter="tourism">Tourism</button>
     </div>
     <div class="pf-grid" id="pfGrid">
-{chr(10).join(card(p) for p in PROJECTS)}
+{chr(10).join(card(p, review=True) for p in PROJECTS)}
     </div>
   </div>
 </section>
@@ -516,7 +580,7 @@ page('portfolio.html', 'Web Design Portfolio Sri Lanka | Websites We Have Built'
     <ul class="ind-grid">''' + ''.join(f'<li><span class="f-ic">{ic(a)}</span>{b}</li>' for a, b in INDUSTRIES) + '''</ul>
   </div>
 </section>
-''' + part('testimonials') + CTA, crumb='Portfolio')
+''' + CTA, crumb='Portfolio')
 
 # ---------------------------------------------------------------- PACKAGES
 CMP = [('Number of pages', 'Up to 5', 'Up to 15', 'Unlimited'),
@@ -662,7 +726,7 @@ page('about.html', 'Web Design Company Sri Lanka | About Our Team',
     </div>
   </div>
 </section>
-''' + part('testimonials') + CTA, crumb='About')
+''' + fix_links(testimonials(ABOUT_REVIEWS)) + CTA, crumb='About')
 
 # ---------------------------------------------------------------- CONTACT
 svc_opts = ''.join(f'<option value="{s[0]}">{s[2]}</option>' for s in SERVICES)
@@ -773,7 +837,7 @@ home_faq = f'''<section class="section" id="faq">
 
 page('index.html', 'Web Development Sri Lanka | Web Design Company',
      'Web design &amp; web development in Sri Lanka by Applantics. Mobile-friendly, SEO-ready business websites, online stores &amp; web apps from LKR 20,000. Get a free quote.',
-     hero + services_home + portfolio_home + fix_links(part('process')) + part('stats') + fix_links(part('pricing')) + part('testimonials') + seo_block + HOME_MORE + home_faq + f'''<section class="section bg-soft" id="guides">
+     hero + services_home + portfolio_home + fix_links(part('process')) + part('stats') + fix_links(part('pricing')) + fix_links(testimonials(HOME_REVIEWS)) + seo_block + HOME_MORE + home_faq + f'''<section class="section bg-soft" id="guides">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Web Design Blog</span>
