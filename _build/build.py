@@ -1,12 +1,15 @@
 import sys, io, re, json, html as htmllib
 ROOT, S = sys.argv[1], sys.argv[2]
-CSSV, JSV = '35', '17'
+CSSV, JSV = '37', '17'
 # Your live domain, e.g. 'https://www.webdesignsrilanka.lk' (no trailing slash).
 # When set, canonical URLs, og:url/og:image, breadcrumbs schema and sitemap.xml are generated.
 SITE = 'https://webdevelopment.lk'
 BUILT = []
 PHONE, PHONE_TEL, WA = '+94 77 960 4714', '+94779604714', '94779604714'
 EMAIL = 'admin@webdevelopment.lk'
+ADDR_COMPANY, ADDR_STREET, ADDR_CITY = 'Applantics (Pvt) Ltd', 'No. 2, U.B. Wijekoon Mawatha', 'Narammala'
+ADDRESS = f'{ADDR_COMPANY}, {ADDR_STREET}, {ADDR_CITY}, Sri Lanka'
+MAP_Q = 'No.+2+U.B.+Wijekoon+Mawatha+Narammala+Sri+Lanka'
 
 def part(n): return io.open(f'{S}/parts/{n}.html', encoding='utf-8').read()
 
@@ -246,7 +249,7 @@ FOOTER = f'''<!-- ================= FOOTER ================= -->
     </div>
     <div><h5>Services</h5>{''.join(f'<a href="services.html#{s[0]}">{s[2]}</a>' for s in SERVICES[:5])}</div>
     <div><h5>Company</h5><a href="about.html">Web Design Company Sri Lanka</a><a href="packages.html">Web Design Sri Lanka Price</a><a href="portfolio.html">Web Design Portfolio</a><a href="blog.html">Web Design Blog</a><a href="contact.html">Contact</a></div>
-    <div><h5>Get in Touch</h5><a href="tel:{PHONE_TEL}" class="fc">{ic('phone')}{PHONE}</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener" class="fc">{ic('wa')}WhatsApp Us</a><a href="mailto:{EMAIL}" class="fc">{ic('mail')}{EMAIL}</a><a href="contact.html" class="fc">{ic('pin')}Sri Lanka</a></div>
+    <div><h5>Get in Touch</h5><a href="tel:{PHONE_TEL}" class="fc">{ic('phone')}{PHONE}</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener" class="fc">{ic('wa')}WhatsApp Us</a><a href="mailto:{EMAIL}" class="fc">{ic('mail')}{EMAIL}</a><a href="https://www.google.com/maps/search/?api=1&amp;query={MAP_Q}" target="_blank" rel="noopener" class="fc fc-addr">{ic('pin')}<span>{ADDR_COMPANY}<br />{ADDR_STREET}, {ADDR_CITY}, Sri Lanka</span></a></div>
   </div>
   <div class="container footer-bottom">
     <span>&copy; <span id="year"></span> Web Development Sri Lanka by Applantics. All rights reserved.</span>
@@ -299,7 +302,7 @@ ORG = {
   'name': 'Web Development Sri Lanka', 'alternateName': ['Web Design Sri Lanka', 'Web Development Sri Lanka by Buddhika S Weerasekara', 'Web Development Sri Lanka by Applantics'],
   'description': 'Web design and web development company in Sri Lanka building mobile-friendly, SEO-ready business websites, e-commerce stores and web applications.',
   'telephone': PHONE_TEL, 'email': EMAIL, 'priceRange': 'LKR 20,000 - LKR 39,000+', 'currenciesAccepted': 'LKR',
-  'address': {'@type': 'PostalAddress', 'addressCountry': 'LK'},
+  'address': {'@type': 'PostalAddress', 'streetAddress': 'No. 2, U.B. Wijekoon Mawatha', 'addressLocality': 'Narammala', 'addressRegion': 'North Western Province', 'addressCountry': 'LK'},
   'areaServed': {'@type': 'Country', 'name': 'Sri Lanka'},
   'openingHoursSpecification': [{'@type': 'OpeningHoursSpecification', 'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], 'opens': '09:00', 'closes': '18:00'}],
   'knowsAbout': ['Web design', 'Web development', 'E-commerce development', 'UI/UX design', 'Search engine optimisation', 'Web hosting'],
@@ -695,7 +698,7 @@ page('about.html', 'Web Design Company Sri Lanka | About Our Team',
       <div><dt>Prices</dt><dd>From LKR 20,000 (starter), LKR 30,000 (business with CMS) and LKR 39,000 (e-commerce). <a href="packages.html">See the price list</a></dd></div>
       <div><dt>Included</dt><dd>Mobile-friendly design, on-page SEO, free SSL and first-year hosting</dd></div>
       <div><dt>Our work</dt><dd>{len(PROJECTS)} live client websites in Sri Lanka, the UAE and Sweden. <a href="portfolio.html">View the portfolio</a></dd></div>
-      <div><dt>Where we work</dt><dd>Clients across Sri Lanka and overseas, online, by phone and on WhatsApp</dd></div>
+      <div><dt>Office &amp; service area</dt><dd>{ADDRESS}. Working with clients across Sri Lanka and overseas, online, by phone and on WhatsApp</dd></div>
       <div><dt>Contact</dt><dd><a href="tel:{PHONE_TEL}">{PHONE}</a> (call or WhatsApp), <a href="mailto:{EMAIL}">{EMAIL}</a>. Monday to Saturday, 9:00 to 18:00</dd></div>
     </dl>
   </div>
@@ -756,7 +759,7 @@ page('contact.html', 'Contact Web Development Sri Lanka | Free Quote in 24 Hours
       <a class="info-card" href="https://wa.me/{WA}" target="_blank" rel="noopener"><span class="f-ic">{ic('wa')}</span><div><small>WhatsApp</small><b>Chat with us now</b></div></a>
       <a class="info-card" href="mailto:{EMAIL}"><span class="f-ic">{ic('mail')}</span><div><small>Email Us</small><b>{EMAIL}</b></div></a>
       <div class="info-card"><span class="f-ic">{ic('clock')}</span><div><small>Working Hours</small><b>Mon – Sat, 9.00 am – 6.00 pm</b></div></div>
-      <div class="info-card"><span class="f-ic">{ic('pin')}</span><div><small>Location</small><b>Sri Lanka · Serving clients island-wide</b></div></div>
+      <div class="info-card"><span class="f-ic">{ic('pin')}</span><div><small>Office</small><b>{ADDR_COMPANY}, {ADDR_STREET}, {ADDR_CITY}, Sri Lanka</b></div></div>
     </div>
     <form class="form-card" id="quoteForm" novalidate>
       <h3>Request a Free Quote</h3>
@@ -784,7 +787,7 @@ page('contact.html', 'Contact Web Development Sri Lanka | Free Quote in 24 Hours
 </section>
 ''' + CONTACT_SEO + f'''<section class="map-wrap">
   <div class="container">
-    <iframe class="map" title="Map of Sri Lanka" src="https://maps.google.com/maps?q=Sri%20Lanka&z=7&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <iframe class="map" title="Map of our office in Narammala, Sri Lanka" src="https://maps.google.com/maps?q={MAP_Q}&amp;z=15&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
 </section>
 <section class="section">
@@ -905,6 +908,7 @@ if SITE:
          '- Location: Sri Lanka; works with clients across Sri Lanka and overseas, online, by phone and WhatsApp',
          f'- Phone and WhatsApp: {PHONE}',
          f'- Email: {EMAIL}',
+         f'- Address: {ADDRESS}',
          '- Opening hours: Monday to Saturday, 9:00 to 18:00 (Sri Lanka time)',
          '- Prices: starter business website from LKR 20,000; business website with CMS from LKR 30,000; e-commerce website from LKR 39,000; custom web applications quoted per project',
          '- Every package includes a mobile-friendly design, on-page SEO, free SSL and first-year hosting',

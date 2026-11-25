@@ -1254,3 +1254,9 @@ a, button, summary, label { -webkit-tap-highlight-color: transparent; touch-acti
   .ib-list li { width: 100%; }
   .ib-list a { flex-direction: column; justify-content: center; text-align: center; }
 }
+
+/* Footer address */
+.footer-grid .fc-addr { align-items: flex-start; line-height: 1.5; }
+.footer-grid .fc-addr svg { margin-top: .2rem; flex: none; }
+@media (max-width: 768px) { .footer-grid .fc-addr { align-items: center; } .footer-grid .fc-addr span { text-align: center; } }
+@media (max-width: 768px) { .footer-grid .fc-addr { flex-direction: column; gap: .35rem; } .footer-grid .fc-addr svg { margin: 0; } }
