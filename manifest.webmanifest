@@ -2,7 +2,7 @@
   "name": "Web Development Sri Lanka by Applantics",
   "short_name": "Web Dev SL",
   "description": "Web design and web development company in Sri Lanka. Websites from LKR 20,000.",
-  "start_url": "index.html",
+  "start_url": "/",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

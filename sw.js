@@ -1,6 +1,6 @@
 // Offline support: pages network-first, assets cache-first.
-const CACHE = 'wdsl-v1';
-const CORE = ['index.html', 'services.html', 'portfolio.html', 'packages.html', 'about.html', 'blog.html', 'contact.html'];
+const CACHE = 'wdsl-v2';
+const CORE = ['/', '/services', '/portfolio', '/packages', '/about', '/blog', '/contact'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
 });
@@ -13,7 +13,7 @@ self.addEventListener('fetch', e => {
   if (req.mode === 'navigate') {
     e.respondWith(fetch(req).then(res => {
       const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); return res;
-    }).catch(() => caches.match(req).then(r => r || caches.match('index.html'))));
+    }).catch(() => caches.match(req).then(r => r || caches.match('/'))));
     return;
   }
   e.respondWith(caches.match(req).then(hit => hit || fetch(req).then(res => {

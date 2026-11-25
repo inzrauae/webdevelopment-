@@ -855,9 +855,20 @@ ErrorDocument 404 /404.html
   RewriteCond %{HTTPS} off [OR]
   RewriteCond %{HTTP_HOST} ^www\\. [NC]
   RewriteRule ^(.*)$ https://webdevelopment.lk/$1 [L,R=301]
-  # /index.html -> /
-  RewriteCond %{THE_REQUEST} \\s/index\\.html[\\s?] [NC]
-  RewriteRule ^index\\.html$ / [L,R=301]
+  # /index.html and /index -> /
+  RewriteCond %{THE_REQUEST} \\s/index(\\.html)?[\\s?] [NC]
+  RewriteRule ^index(\\.html)?$ / [L,R=301]
+  # /about.html -> /about (301, keeps one clean URL per page)
+  RewriteCond %{THE_REQUEST} \\s/([^.\\s?]+)\\.html[\\s?] [NC]
+  RewriteRule ^ /%1 [L,R=301]
+  # /about/ -> /about
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([^/.]+)/$ /$1 [L,R=301]
+  # Serve /about from about.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^([^/.]+)$ /$1.html [L]
 </IfModule>
 
 <IfModule mod_deflate.c>
@@ -897,9 +908,23 @@ robots = ('User-agent: *\nAllow: /\nDisallow: /_build/\n\n'
 if SITE:
     robots += f'\nSitemap: {SITE}/sitemap.xml\n'
     pri = {'index.html': '1.0', 'services.html': '0.9', 'packages.html': '0.9', 'portfolio.html': '0.8', 'contact.html': '0.8', 'about.html': '0.7'}
-    urls = ''.join(f'  <url><loc>{SITE}/{"" if f == "index.html" else f}</loc><lastmod>2026-11-25</lastmod><priority>{pri.get(f, "0.3" if f in ("privacy.html", "terms.html") else "0.6")}</priority></url>\n' for f in BUILT)
+    urls = ''.join(f'  <url><loc>{SITE}/{"" if f == "index.html" else f}</loc><lastmod>2026-11-25</lastmod><priority>{pri.get(f, "0.3" if f in ("privacy.html", "terms.html") else "0.6")}</priority></url>\n' for f in sorted(BUILT, key=lambda f: -float(pri.get(f, "0.3" if f in ("privacy.html", "terms.html") else "0.6"))))
     io.open(f'{ROOT}/sitemap.xml', 'w', encoding='utf-8', newline='\n').write(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
 io.open(f'{ROOT}/robots.txt', 'w', encoding='utf-8', newline='\n').write(robots)
+
+# ---------------------------------------------------------------- clean URLs (/about instead of /about.html)
+_stems = sorted({f[:-5] for f in BUILT} | {'404'}, key=len, reverse=True)
+_alt = '|'.join(re.escape(s) for s in _stems)
+def _clean(s):
+    s = re.sub(r'href="(' + _alt + r')\.html(#[^"]*)?"', lambda m: f'href="/{"" if m.group(1) == "index" else m.group(1)}{m.group(2) or ""}"', s)
+    if SITE:
+        s = re.sub(re.escape(SITE) + r'/(' + _alt + r')\.html', lambda m: f'{SITE}/{"" if m.group(1) == "index" else m.group(1)}', s)
+    return s
+for _f in [f'{x}.html' for x in _stems] + ['sitemap.xml', 'llms.txt']:
+    _p = f'{ROOT}/{_f}'
+    try: _s = io.open(_p, encoding='utf-8').read()
+    except FileNotFoundError: continue
+    io.open(_p, 'w', encoding='utf-8', newline='\n').write(_clean(_s))
 
 print('built')
