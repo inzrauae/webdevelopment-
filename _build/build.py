@@ -1,6 +1,6 @@
 import sys, io, re, json, html as htmllib
 ROOT, S = sys.argv[1], sys.argv[2]
-CSSV, JSV = '37', '17'
+CSSV, JSV = '39', '17'
 # Your live domain, e.g. 'https://www.webdesignsrilanka.lk' (no trailing slash).
 # When set, canonical URLs, og:url/og:image, breadcrumbs schema and sitemap.xml are generated.
 SITE = 'https://webdevelopment.lk'
@@ -859,7 +859,7 @@ page('index.html', 'Web Development Sri Lanka | Web Design Company',
       <p>Learn what web designing is, how to start, and how to plan a website that wins customers.</p>
     </div>
     <div class="blog-grid blog-grid-4">
-{chr(10).join(post_card(q) for q in POSTS[:4])}
+{chr(10).join(post_card(q) for q in LATEST[:4])}
     </div>
     <div class="center-btn"><a href="blog.html" class="btn btn-light btn-lg">Read All Guides {ARROW}</a></div>
   </div>
@@ -987,7 +987,7 @@ robots = ('User-agent: *\nAllow: /\nDisallow: /_build/\n\n'
 if SITE:
     robots += f'\nSitemap: {SITE}/sitemap.xml\n'
     pri = {'index.html': '1.0', 'services.html': '0.9', 'packages.html': '0.9', 'portfolio.html': '0.8', 'contact.html': '0.8', 'about.html': '0.7'}
-    urls = ''.join(f'  <url><loc>{SITE}/{"" if f == "index.html" else f}</loc><lastmod>2026-11-25</lastmod><priority>{pri.get(f, "0.3" if f in ("privacy.html", "terms.html") else "0.6")}</priority></url>\n' for f in sorted(BUILT, key=lambda f: -float(pri.get(f, "0.3" if f in ("privacy.html", "terms.html") else "0.6"))))
+    urls = ''.join(f'  <url><loc>{SITE}/{"" if f == "index.html" else f}</loc><lastmod>{PAGE_DATE.get(f, "2026-11-25")}</lastmod><priority>{pri.get(f, "0.3" if f in ("privacy.html", "terms.html") else "0.6")}</priority></url>\n' for f in sorted(BUILT, key=lambda f: -float(pri.get(f, "0.3" if f in ("privacy.html", "terms.html") else "0.6"))))
     io.open(f'{ROOT}/sitemap.xml', 'w', encoding='utf-8', newline='\n').write(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
 io.open(f'{ROOT}/robots.txt', 'w', encoding='utf-8', newline='\n').write(robots)

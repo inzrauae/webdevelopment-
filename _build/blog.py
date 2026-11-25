@@ -8,6 +8,10 @@ def table(head, rows):
     th = ''.join(f'<th>{h}</th>' for h in head)
     tr = ''.join('<tr>' + ''.join(f'<td>{c}</td>' for c in r) + '</tr>' for r in rows)
     return f'<div class="art-table"><table><thead><tr>{th}</tr></thead><tbody>{tr}</tbody></table></div>'
+def fig(slug, cap, view='desktop'):
+    return (f'<figure class="art-fig"><img src="images/portfolio/{slug}-{view}.jpg" alt="{cap}" loading="lazy" />'
+            f'<figcaption>{cap}</figcaption></figure>')
+
 def keybox(items):
     return (f'<div class="art-key"><b>{ic("check")}Key takeaways</b><ul>' +
             ''.join(f'<li>{x}</li>' for x in items) + '</ul></div>')
@@ -429,6 +433,40 @@ POSTS = [
 ]
 exec(io.open(f'{S}/blog_more.py', encoding='utf-8').read())
 
+# ---- Scheduled posts: _build/posts/*.py, each post has date='YYYY-MM-DD' and goes live on that day
+import glob as _glob, os as _os
+from datetime import datetime as _dt, timezone as _tz, timedelta as _td
+EXTRA = {}  # slug -> extra sections, inserted before the closing section
+for _f in sorted(_glob.glob(f'{S}/posts/*.py')):
+    exec(io.open(_f, encoding='utf-8').read())
+for _p in POSTS:
+    if _p['slug'] in EXTRA: _p['secs'] = _p['secs'][:-1] + EXTRA[_p['slug']] + _p['secs'][-1:]
+TODAY = _os.environ.get('PUBLISH_DATE') or _dt.now(_tz(_td(hours=5, minutes=30))).date().isoformat()
+ALL_SLUGS = {p['slug'] for p in POSTS}
+POSTS = [p for p in POSTS if p.get('date', BLOG_DATE) <= TODAY]
+LIVE = {p['slug'] for p in POSTS}
+_HIDDEN = ALL_SLUGS - LIVE
+for _s in _HIDDEN:  # never leave a not-yet-published post online from an earlier build
+    if _os.path.exists(f'{ROOT}/{_s}.html'): _os.remove(f'{ROOT}/{_s}.html')
+
+def _unlink_future(h):
+    # A link to a post that is not published yet becomes plain text until that post goes live
+    for s in _HIDDEN:
+        h = re.sub(r'<a href="' + re.escape(s) + r'\.html(?:#[^"]*)?"[^>]*>(.*?)</a>', r'\1', h)
+    return h
+
+def _date_txt(d):
+    y, m, dd = d.split('-')
+    return f"{int(dd)} {['January','February','March','April','May','June','July','August','September','October','November','December'][int(m)-1]} {y}"
+
+for p in POSTS:
+    p['secs'] = [(a, h, _unlink_future(x)) for a, h, x in p['secs']]
+    p['rel'] = [s for s in p.get('rel', []) if s in LIVE]
+    p.setdefault('date', BLOG_DATE)
+LATEST = sorted(POSTS, key=lambda p: p['date'], reverse=True)
+PAGE_DATE = {f"{p['slug']}.html": p['date'] for p in POSTS}
+if LATEST: PAGE_DATE['blog.html'] = LATEST[0]['date']
+
 for p in POSTS:
     words = len(re.sub(r'<[^>]+>', ' ', ''.join(h for _, _, h in p['secs'])).split())
     p['mins'] = max(4, round(words / 200))
@@ -466,17 +504,20 @@ for i, p in enumerate(POSTS):
     toc = ''.join(f'<li><a href="#{sid}">{h}</a></li>' for sid, h, _ in p['secs'])
     body = ''.join(f'<h2 id="{sid}">{h}</h2>{html}' for sid, h, html in p['secs'])
     BY = {q['slug']: q for q in POSTS}
-    related = [BY[s] for s in p.get('rel', [])] or [POSTS[(i + k) % len(POSTS)] for k in (1, 2, 3)]
+    related = [BY[s] for s in p.get('rel', [])][:3]
+    for q in LATEST:
+        if len(related) >= 3: break
+        if q is not p and q not in related: related.append(q)
     art_ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': plain(p['title']), 'description': plain(p['desc']),
-              'datePublished': BLOG_DATE, 'dateModified': BLOG_DATE, 'author': AUTHOR, 'publisher': PUBLISHER, 'inLanguage': 'en-LK',
+              'datePublished': p['date'], 'dateModified': p['date'], 'author': AUTHOR, 'publisher': PUBLISHER, 'inLanguage': 'en-LK',
               'about': plain(p['eyebrow']), 'wordCount': len(re.sub(r'<[^>]+>', ' ', ''.join(h for _, _, h in p['secs'])).split())}
     if SITE: art_ld.update({'image': f"{SITE}/images/blog/{p['slug']}.webp", 'mainEntityOfPage': f"{SITE}/{p['slug']}.html"})
-    page(f"{p['slug']}.html", SEO_TITLES.get(p['slug'], p['title']), p['desc'],
+    page(f"{p['slug']}.html", SEO_TITLES.get(p['slug'], p.get('seo_title', p['title'])), p['desc'],
          page_hero(p['eyebrow'], p['h1'], p['intro'], 'Blog', [('clock', f"{p['mins']} min read", 'Guide'), ('award', 'Expert tips', 'By our team')]) +
          f'''<section class="section article-wrap">
   <div class="container article-grid">
     <article class="article">
-      <div class="art-meta"><span>{ic('users')}By <a href="about.html" rel="author">Buddhika S Weerasekara</a></span><span>{ic('clock')}{p['mins']} min read</span><span>Updated {BLOG_DATE_TXT}</span></div>
+      <div class="art-meta"><span>{ic('users')}By <a href="about.html" rel="author">Buddhika S Weerasekara</a></span><span>{ic('clock')}{p['mins']} min read</span><span>{'Published' if p['date'] != BLOG_DATE else 'Updated'} {_date_txt(p['date'])}</span></div>
       <figure class="art-cover"><img src="images/blog/{p['slug']}.webp" alt="{p['img_alt']}" width="1200" height="675" decoding="async" /></figure>
       {keybox(p['key'])}
       {body}
@@ -512,7 +553,7 @@ page('blog.html', 'Web Design Blog: Guides &amp; Tips | Web Development Sri Lank
      f'''<section class="section">
   <div class="container">
     <div class="blog-grid">
-{chr(10).join(post_card(q) for q in POSTS)}
+{chr(10).join(post_card(q) for q in LATEST)}
     </div>
   </div>
 </section>
