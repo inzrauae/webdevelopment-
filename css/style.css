@@ -1247,3 +1247,10 @@ a, button, summary, label { -webkit-tap-highlight-color: transparent; touch-acti
   .t-card figcaption { text-align: left; }
 }
 .t-card figcaption .t-av { color: #fff; font-size: .9rem; }
+
+/* Industry strip: always two full rows of four on tablets and phones */
+@media (max-width: 1024px) {
+  .ib-list { display: grid !important; grid-template-columns: repeat(4, 1fr); justify-items: center; }
+  .ib-list li { width: 100%; }
+  .ib-list a { flex-direction: column; justify-content: center; text-align: center; }
+}

@@ -1,6 +1,6 @@
 import sys, io, re, json, html as htmllib
 ROOT, S = sys.argv[1], sys.argv[2]
-CSSV, JSV = '34', '17'
+CSSV, JSV = '35', '17'
 # Your live domain, e.g. 'https://www.webdesignsrilanka.lk' (no trailing slash).
 # When set, canonical URLs, og:url/og:image, breadcrumbs schema and sitemap.xml are generated.
 SITE = 'https://webdevelopment.lk'
@@ -326,6 +326,17 @@ def faq_schema(items):
         {'@type': 'Question', 'name': plain(q), 'acceptedAnswer': {'@type': 'Answer', 'text': plain(a)}} for q, a in items]}
 
 IMG_SIZES = {'-desktop.jpg': (1440, 900), '-tablet.jpg': (768, 1050), '-mobile.jpg': (390, 844)}
+def nofollow_clients(html):
+    """Client website links get rel="nofollow noopener" (rel="me" links to our own profiles are left alone)."""
+    hosts = {re.sub(r'^https?://(www\.)?', '', p[2]).strip('/').lower() for p in PROJECTS}
+    def fix(m):
+        tag, url = m.group(0), m.group(1)
+        host = re.sub(r'^https?://(www\.)?', '', url).split('/')[0].lower()
+        if host not in hosts or re.search(r'rel="[^"]*\bme\b', tag): return tag
+        if 'rel="' in tag: return re.sub(r'rel="[^"]*"', 'rel="nofollow noopener"', tag)
+        return tag[:-1] + ' rel="nofollow noopener">'
+    return re.sub(r'<a\b[^>]*href="(https?://[^"]+)"[^>]*>', fix, html)
+
 def img_dims(html):
     """Give every <img> a width/height so the page does not jump while loading (CLS)."""
     def fix(m):
@@ -413,7 +424,7 @@ def page(file, title, desc, body, active=None, faqs=None, crumb=None, ld_extra=N
 </body>
 </html>
 '''
-    html = img_dims(html)
+    html = nofollow_clients(img_dims(html))
     io.open(f'{ROOT}/{file}', 'w', encoding='utf-8', newline='\n').write(html)
 
 def page_hero(eyebrow, h1, sub, crumb, chips=()):
@@ -679,7 +690,7 @@ page('about.html', 'Web Design Company Sri Lanka | About Our Team',
     </div>
     <dl class="facts">
       <div><dt>Who we are</dt><dd>A web design and web development company in Sri Lanka, part of Applantics</dd></div>
-      <div><dt>Led by</dt><dd>Buddhika S Weerasekara, web developer and SEO specialist (<a href="https://seoservice.lk/" target="_blank" rel="noopener">seoservice.lk</a>)</dd></div>
+      <div><dt>Led by</dt><dd>Buddhika S Weerasekara, web developer and SEO specialist (<a href="https://seoservice.lk/" target="_blank" rel="me noopener">seoservice.lk</a>)</dd></div>
       <div><dt>What we build</dt><dd>Business websites, e-commerce stores, web applications, UI/UX design, SEO and hosting</dd></div>
       <div><dt>Prices</dt><dd>From LKR 20,000 (starter), LKR 30,000 (business with CMS) and LKR 39,000 (e-commerce). <a href="packages.html">See the price list</a></dd></div>
       <div><dt>Included</dt><dd>Mobile-friendly design, on-page SEO, free SSL and first-year hosting</dd></div>
