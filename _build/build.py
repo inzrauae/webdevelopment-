@@ -7,6 +7,7 @@ SITE = 'https://webdevelopment.lk'
 BUILT = []
 PHONE, PHONE_TEL, WA = '+94 77 960 4714', '+94779604714', '94779604714'
 EMAIL = 'admin@webdevelopment.lk'
+FACEBOOK = 'https://www.facebook.com/webdevelopmentsrilanka'
 ADDR_COMPANY, ADDR_STREET, ADDR_CITY = 'Applantics (Pvt) Ltd', 'No. 2, U.B. Wijekoon Mawatha', 'Narammala'
 ADDRESS = f'{ADDR_COMPANY}, {ADDR_STREET}, {ADDR_CITY}, Sri Lanka'
 MAP_Q = 'No.+2+U.B.+Wijekoon+Mawatha+Narammala+Sri+Lanka'
@@ -242,6 +243,7 @@ FOOTER = f'''<!-- ================= FOOTER ================= -->
       <a href="index.html" class="logo light"><span class="logo-word">Web<b>Development</b></span><span class="logo-tag">Sri Lanka · by Buddhika S Weerasekara</span></a>
       <p>Web Development Sri Lanka by Applantics is a web design company in Sri Lanka building websites, online stores and web apps for results.</p>
       <div class="socials">
+        <a href="{FACEBOOK}" target="_blank" rel="noopener me" aria-label="Facebook page">{ic('fb')}</a>
         <a href="https://wa.me/{WA}" target="_blank" rel="noopener" aria-label="WhatsApp">{ic('wa')}</a>
         <a href="mailto:{EMAIL}" aria-label="Email">{ic('mail')}</a>
         <a href="tel:{PHONE_TEL}" aria-label="Call">{ic('phone')}</a>
@@ -361,7 +363,7 @@ def page(file, title, desc, body, active=None, faqs=None, crumb=None, ld_extra=N
     org = dict(ORG)
     if SITE: org.update({'@id': f'{SITE}/#business', 'url': f'{SITE}/', 'image': f'{SITE}/images/og-image.jpg',
                          'logo': {'@type': 'ImageObject', 'url': f'{SITE}/images/icon-512.png', 'width': 512, 'height': 512},
-                         'founder': {'@id': f'{SITE}/#founder'}, 'sameAs': ['https://seoservice.lk/']})
+                         'founder': {'@id': f'{SITE}/#founder'}, 'sameAs': [FACEBOOK, 'https://seoservice.lk/']})
     data = [org]
     if file == 'index.html':
         data.append({'@context': 'https://schema.org', '@type': 'WebSite', 'name': 'Web Development Sri Lanka', 'inLanguage': 'en-LK',
@@ -908,6 +910,7 @@ if SITE:
          '- Location: Sri Lanka; works with clients across Sri Lanka and overseas, online, by phone and WhatsApp',
          f'- Phone and WhatsApp: {PHONE}',
          f'- Email: {EMAIL}',
+         f'- Facebook: {FACEBOOK}',
          f'- Address: {ADDRESS}',
          '- Opening hours: Monday to Saturday, 9:00 to 18:00 (Sri Lanka time)',
          '- Prices: starter business website from LKR 20,000; business website with CMS from LKR 30,000; e-commerce website from LKR 39,000; custom web applications quoted per project',
