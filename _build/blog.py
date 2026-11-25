@@ -463,6 +463,15 @@ for p in POSTS:
     p['secs'] = [(a, h, _unlink_future(x)) for a, h, x in p['secs']]
     p['rel'] = [s for s in p.get('rel', []) if s in LIVE]
     p.setdefault('date', BLOG_DATE)
+# Further Reading: links to related guides that are already published
+for p in POSTS:
+    _t = [s for s in globals().get('FURTHER', {}).get(p['slug'], []) if s in LIVE and s != p['slug']]
+    for _s in p.get('rel', []) + [q['slug'] for q in POSTS]:  # top up with related guides that are live
+        if len(_t) >= 4: break
+        if _s in LIVE and _s != p['slug'] and _s not in _t and _s in LINKTXT: _t.append(_s)
+    if _t:
+        _items = ''.join(f'<li><a href="{s}.html">{LINKTXT[s][0]}</a>: {LINKTXT[s][1]}</li>' for s in _t)
+        p['secs'] = p['secs'][:-1] + [('further-reading', 'Further Reading', '<p>Related guides from our blog:</p><ul>' + _items + '</ul>')] + p['secs'][-1:]
 LATEST = sorted(POSTS, key=lambda p: p['date'], reverse=True)
 PAGE_DATE = {f"{p['slug']}.html": p['date'] for p in POSTS}
 if LATEST: PAGE_DATE['blog.html'] = LATEST[0]['date']
