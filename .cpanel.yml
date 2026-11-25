@@ -1,0 +1,9 @@
+---
+# cPanel Git deployment: copies only the live website files into public_html.
+# The _build folder (site generator), SEO-PLAN.md and README.md stay out of the web root.
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/public_html/
+    - /bin/cp -f *.html $DEPLOYPATH
+    - /bin/cp -f .htaccess robots.txt sitemap.xml llms.txt manifest.webmanifest sw.js $DEPLOYPATH
+    - /bin/cp -R css js images $DEPLOYPATH

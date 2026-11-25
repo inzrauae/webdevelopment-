@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="660" viewBox="0 0 900 660" fill="none">
+  <title>Managed hosting, security and backups</title>
+  <desc>A cloud connects to a dimensional server rack, a security shield and a backup drive on a deep navy background.</desc>
+  <defs>
+    <linearGradient id="background" x1="80" y1="0" x2="810" y2="660" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#142641"/>
+      <stop offset=".55" stop-color="#0D192E"/>
+      <stop offset="1" stop-color="#111D32"/>
+    </linearGradient>
+    <radialGradient id="ambient" cx="0" cy="0" r="1" gradientTransform="translate(480 338) rotate(90) scale(258 347)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2C4262" stop-opacity=".58"/>
+      <stop offset="1" stop-color="#2C4262" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="warmGlow" cx="0" cy="0" r="1" gradientTransform="translate(600 366) rotate(90) scale(177 222)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF7528" stop-opacity=".13"/>
+      <stop offset="1" stop-color="#FF7528" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="front" x1="311" y1="266" x2="568" y2="483" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#30445F"/>
+      <stop offset="1" stop-color="#15253B"/>
+    </linearGradient>
+    <linearGradient id="side" x1="586" y1="281" x2="643" y2="461" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#24374E"/>
+      <stop offset="1" stop-color="#101F34"/>
+    </linearGradient>
+    <linearGradient id="top" x1="360" y1="234" x2="559" y2="287" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4A6079"/>
+      <stop offset="1" stop-color="#273B54"/>
+    </linearGradient>
+    <linearGradient id="blade" x1="312" y1="289" x2="576" y2="343" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#263A52"/>
+      <stop offset="1" stop-color="#17283F"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="323" y1="293" x2="625" y2="425" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFBA72"/>
+      <stop offset=".43" stop-color="#FF8A35"/>
+      <stop offset="1" stop-color="#FF6A00"/>
+    </linearGradient>
+    <linearGradient id="cloud" x1="410" y1="141" x2="516" y2="240" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF3E8"/>
+      <stop offset="1" stop-color="#FFB678"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="665" y1="291" x2="755" y2="427" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#334A63"/>
+      <stop offset="1" stop-color="#192A42"/>
+    </linearGradient>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" stroke="#B5C9E2" stroke-opacity=".045"/>
+    </pattern>
+    <filter id="shadow" x="-40%" y="-45%" width="180%" height="200%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="22" stdDeviation="18" flood-color="#030B18" flood-opacity=".55"/>
+    </filter>
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="190%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#030B18" flood-opacity=".4"/>
+    </filter>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+  </defs>
+
+  <path fill="url(#background)" d="M0 0h900v660H0z"/>
+  <path fill="url(#grid)" d="M0 90h900v450H0z"/>
+  <path fill="url(#ambient)" d="M0 0h900v660H0z"/>
+  <path fill="url(#warmGlow)" d="M0 0h900v660H0z"/>
+
+  <!-- Quiet orbital lines give the infrastructure a connected setting. -->
+  <ellipse cx="453" cy="334" rx="293" ry="161" stroke="#7992AF" stroke-opacity=".12" transform="rotate(-17 453 334)"/>
+  <ellipse cx="453" cy="334" rx="337" ry="118" stroke="#7992AF" stroke-opacity=".09" transform="rotate(17 453 334)"/>
+  <path d="M209 242a293 161-17 0 1 86-48" stroke="#FF9B56" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="209" cy="242" r="4" fill="#FFAD70"/>
+  <circle cx="760" cy="342" r="3" fill="#6A83A4"/>
+  <circle cx="248" cy="451" r="3" fill="#6A83A4"/>
+
+  <!-- Network connections sit behind the illustration. -->
+  <path d="M465 226v38M619 337h51M293 394h-69v-29" stroke="#FF944D" stroke-opacity=".22" stroke-width="10" filter="url(#glow)"/>
+  <path d="M465 226v38M619 337h51M293 394h-69v-29" stroke="#FF9B56" stroke-opacity=".75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M224 365v-57a18 18 0 0 1 18-18h44M694 405v39a18 18 0 0 1-18 18h-40" stroke="#7890AA" stroke-opacity=".45" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 7"/>
+  <circle cx="285" cy="290" r="4" fill="#FF9B56"/>
+  <circle cx="637" cy="462" r="4" fill="#FF9B56"/>
+
+  <!-- Cloud, drawn as one sculpted silhouette. -->
+  <g filter="url(#softShadow)" transform="translate(92 57) scale(.8)">
+    <path d="M407 226c-20 0-35-14-35-33 0-17 12-31 29-33 7-23 27-38 51-38 29 0 52 21 55 49h8c17 0 31 12 31 28 0 15-12 27-29 27H407Z" fill="#B3653C"/>
+    <path d="M407 217c-20 0-35-14-35-33 0-17 12-31 29-33 7-23 27-38 51-38 29 0 52 21 55 49h8c17 0 31 12 31 28 0 15-12 27-29 27H407Z" fill="url(#cloud)"/>
+    <path d="M387 169c4-5 10-8 17-8l5-1 2-6c6-18 22-30 41-30 20 0 37 13 43 31" stroke="white" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>
+    <path d="m445 184 15-15 15 15M460 170v31" stroke="#A94A1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- A low platform grounds the rack without a heavy pedestal. -->
+  <ellipse cx="467" cy="493" rx="235" ry="27" fill="#040D1C" fill-opacity=".35"/>
+  <path d="m283 478 71-40 302 1 26 43-76 39-298-1-25-42Z" fill="#172A42" stroke="#425770" stroke-opacity=".45"/>
+  <path d="m283 478 298 1 101 3-76 39-298-1-25-42Z" fill="#101D30"/>
+  <path d="m309 509 290 1 64-31" stroke="#FF8B3F" stroke-opacity=".27" stroke-linecap="round"/>
+
+  <!-- Three replaceable server blades, with an angled side and top. -->
+  <g filter="url(#shadow)">
+    <path d="m297 273 62-36h273c8 0 14 5 14 13v194c0 7-3 12-9 16l-54 31-286-218Z" fill="url(#side)" stroke="#5B718B" stroke-opacity=".35"/>
+    <path d="m297 273 62-36h273c7 0 12 4 13 10l-62 36-286-10Z" fill="url(#top)"/>
+    <path d="m319 268 47-27h251" stroke="#A6B8CD" stroke-opacity=".35" stroke-linecap="round"/>
+    <path d="M297 283a11 11 0 0 1 11-11h266a11 11 0 0 1 11 11v196a12 12 0 0 1-12 12H309a12 12 0 0 1-12-12V283Z" fill="url(#front)" stroke="#637B98" stroke-opacity=".45"/>
+    <path d="M585 285v193" stroke="#FF9850" stroke-opacity=".8" stroke-width="2"/>
+    <path d="m595 287 37-22M595 357l37-22M595 427l37-22" stroke="#7890AA" stroke-opacity=".25" stroke-width="2" stroke-linecap="round"/>
+    <path d="m608 292 24-14m-24 21 24-14m-24 21 24-14m-24 21 24-14m-24 91 24-14m-24 21 24-14m-24 21 24-14m-24 21 24-14m-24 91 24-14m-24 21 24-14m-24 21 24-14m-24 21 24-14" stroke="#0B182B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="310" y="286" width="261" height="57" rx="7" fill="url(#blade)" stroke="#6D839D" stroke-opacity=".25"/>
+    <rect x="310" y="355" width="261" height="57" rx="7" fill="url(#blade)" stroke="#6D839D" stroke-opacity=".25"/>
+    <rect x="310" y="424" width="261" height="53" rx="7" fill="url(#blade)" stroke="#6D839D" stroke-opacity=".25"/>
+    <path d="M322 298v33m0 36v33m0 36v29" stroke="url(#orange)" stroke-width="3" stroke-linecap="round"/>
+
+    <g stroke="#6F829A" stroke-opacity=".55" stroke-width="2" stroke-linecap="round">
+      <path d="M341 303h61m-61 8h61m-61 8h61m-61 8h61M341 372h61m-61 8h61m-61 8h61m-61 8h61M341 439h61m-61 8h61m-61 8h61m-61 8h61"/>
+    </g>
+    <g fill="#0D1A2C" stroke="#6A809B" stroke-opacity=".4">
+      <rect x="427" y="303" width="58" height="25" rx="4"/>
+      <rect x="427" y="372" width="58" height="25" rx="4"/>
+      <rect x="427" y="438" width="58" height="25" rx="4"/>
+    </g>
+    <g stroke="#91A2B7" stroke-opacity=".6" stroke-width="1.5" stroke-linecap="round">
+      <path d="M437 310h27m-27 7h18M437 379h27m-27 7h18M437 445h27m-27 7h18"/>
+    </g>
+    <g fill="#FFA35E">
+      <circle cx="523" cy="315" r="4"/>
+      <circle cx="523" cy="384" r="4"/>
+      <circle cx="523" cy="450" r="4"/>
+    </g>
+    <g fill="#536B85">
+      <circle cx="542" cy="315" r="3"/>
+      <circle cx="542" cy="384" r="3"/>
+      <circle cx="542" cy="450" r="3"/>
+    </g>
+    <path d="M311 349h258M311 418h258" stroke="#0D1A2B" stroke-opacity=".75" stroke-width="3"/>
+  </g>
+
+  <!-- Security shield. -->
+  <g filter="url(#softShadow)">
+    <path d="m702 279 63 25v45c0 41-28 67-63 84-35-17-63-43-63-84v-45l63-25Z" fill="#0C172A" stroke="#6E839D" stroke-opacity=".35"/>
+    <path d="m702 286 56 23v40c0 36-23 60-56 77-33-17-56-41-56-77v-40l56-23Z" fill="url(#glass)"/>
+    <path d="m702 296 46 19v34c0 29-18 50-46 66-28-16-46-37-46-66v-34l46-19Z" stroke="#FF9A54" stroke-opacity=".8" stroke-width="1.5"/>
+    <path d="m680 350 15 15 29-31" stroke="#FFAB6D" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="m702 286 56 23" stroke="#B8CADB" stroke-opacity=".4" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- An independent backup drive and restore symbol. -->
+  <g filter="url(#softShadow)">
+    <rect x="151" y="323" width="112" height="100" rx="19" fill="#122138" stroke="#6F839D" stroke-opacity=".45"/>
+    <rect x="151" y="315" width="112" height="100" rx="19" fill="url(#glass)" stroke="#6F839D" stroke-opacity=".45"/>
+    <path d="M186 351a24 24 0 1 1-2 28" stroke="#FFA86B" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M185 338v15h15" stroke="#FFA86B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M208 351v15l9 5" stroke="#D6E0EA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M176 400h37" stroke="#8AA0B8" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="239" cy="400" r="3" fill="#FF9E5C"/>
+  </g>
+</svg>
