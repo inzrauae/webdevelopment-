@@ -1,6 +1,6 @@
 import sys, io, re, json, html as htmllib
 ROOT, S = sys.argv[1], sys.argv[2]
-CSSV, JSV = '39', '17'
+CSSV, JSV = '39', '18'
 # Your live domain, e.g. 'https://www.webdesignsrilanka.lk' (no trailing slash).
 # When set, canonical URLs, og:url/og:image, breadcrumbs schema and sitemap.xml are generated.
 SITE = 'https://webdevelopment.lk'
@@ -162,7 +162,7 @@ def testimonials(slugs, sub='Reviews from Sri Lankan and international businesse
     <div class="t-grid">
 {chr(10).join(review_card(s) for s in slugs)}
     </div>
-    <div class="center-btn"><a href="portfolio.html" class="btn btn-light btn-lg">See All Client Projects {ARROW}</a></div>
+    <div class="center-btn"><a href="reviews.html" class="btn btn-light btn-lg">Read All Client Reviews {ARROW}</a></div>
   </div>
 </section>
 '''
@@ -251,7 +251,7 @@ FOOTER = f'''<!-- ================= FOOTER ================= -->
       </div>
     </div>
     <div><h5>Services</h5>{''.join(f'<a href="services.html#{s[0]}">{s[2]}</a>' for s in SERVICES[:5])}</div>
-    <div><h5>Company</h5><a href="about.html">Web Design Company Sri Lanka</a><a href="packages.html">Web Design Sri Lanka Price</a><a href="portfolio.html">Web Design Portfolio</a><a href="blog.html">Web Design Blog</a><a href="contact.html">Contact</a></div>
+    <div><h5>Company</h5><a href="about.html">Web Design Company Sri Lanka</a><a href="packages.html">Web Design Sri Lanka Price</a><a href="portfolio.html">Web Design Portfolio</a><a href="reviews.html">Client Reviews</a><a href="blog.html">Web Design Blog</a><a href="contact.html">Contact</a></div>
     <div><h5>Get in Touch</h5><a href="tel:{PHONE_TEL}" class="fc">{ic('phone')}{PHONE}</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener" class="fc">{ic('wa')}WhatsApp Us</a><a href="mailto:{EMAIL}" class="fc">{ic('mail')}{EMAIL}</a><a href="https://www.google.com/maps/search/?api=1&amp;query={MAP_Q}" target="_blank" rel="noopener" class="fc fc-addr">{ic('pin')}<span>{ADDR_COMPANY}<br />{ADDR_STREET}, {ADDR_CITY}, Sri Lanka</span></a></div>
   </div>
   <div class="container footer-bottom">
@@ -585,8 +585,9 @@ page('portfolio.html', 'Web Design Portfolio Sri Lanka | Websites We Have Built'
       <button data-filter="tourism">Tourism</button>
     </div>
     <div class="pf-grid" id="pfGrid">
-{chr(10).join(card(p, review=True) for p in PROJECTS)}
+{chr(10).join(card(p) for p in PROJECTS)}
     </div>
+    <div class="center-btn"><a href="reviews.html" class="btn btn-light btn-lg">Read What Our Clients Say {ARROW}</a></div>
   </div>
 </section>
 ''' + part('stats') + PF_SEO + f'''
@@ -601,6 +602,23 @@ page('portfolio.html', 'Web Design Portfolio Sri Lanka | Websites We Have Built'
   </div>
 </section>
 ''' + CTA, crumb='Portfolio')
+
+# ---------------------------------------------------------------- CLIENT REVIEWS
+CLIENT_REVIEWS = [p[0] for p in PROJECTS if p[0] in REVIEWS and p[0] not in OWN]
+page('reviews.html', 'Client Reviews | Web Development Sri Lanka',
+     f'Read {len(CLIENT_REVIEWS)} reviews from businesses in Sri Lanka, the UAE and Sweden about the websites, online stores and web apps Web Development Sri Lanka built for them.',
+     page_hero('Client Reviews', 'What Our <span class="accent">Clients Say</span>',
+               'Reviews from Sri Lankan and international businesses we have designed and built websites for, each linked to their live website.',
+               'Client Reviews', [('heart', '4.9/5 Rating', 'Happy clients'), ('award', f'{len(CLIENT_REVIEWS)} Reviews', 'From real clients')]) +
+     f'''<section class="section testimonials">
+  <div class="container">
+    <div class="t-grid">
+{chr(10).join(review_card(s) for s in CLIENT_REVIEWS)}
+    </div>
+    <div class="center-btn"><a href="portfolio.html" class="btn btn-light btn-lg">See Their Websites in Our Portfolio {ARROW}</a></div>
+  </div>
+</section>
+''' + CTA, crumb='Client Reviews')
 
 # ---------------------------------------------------------------- PACKAGES
 CMP = [('Number of pages', 'Up to 5', 'Up to 15', 'Unlimited'),
@@ -902,7 +920,7 @@ if SITE:
     def _d(f):
         m = re.search(r'<meta name="description" content="(.*?)"', io.open(f'{ROOT}/{f}', encoding='utf-8').read())
         return plain(m.group(1)) if m else ''
-    main_pages = ['index.html', 'services.html', 'packages.html', 'portfolio.html', 'about.html', 'contact.html', 'blog.html']
+    main_pages = ['index.html', 'services.html', 'packages.html', 'portfolio.html', 'reviews.html', 'about.html', 'contact.html', 'blog.html']
     guides = [f for f in BUILT if f not in main_pages and f not in ('privacy.html', 'terms.html')]
     L = [f'# Web Development Sri Lanka', '',
          f'> Web Development Sri Lanka ({SITE}/) is a web design and web development company in Sri Lanka, led by Buddhika S Weerasekara. '
@@ -993,7 +1011,7 @@ robots = ('User-agent: *\nAllow: /\nDisallow: /_build/\n\n'
           + ''.join(f'User-agent: {b}\nAllow: /\n\n' for b in ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-SearchBot', 'PerplexityBot', 'Google-Extended', 'Applebot-Extended', 'Bingbot']))
 if SITE:
     robots += f'\nSitemap: {SITE}/sitemap.xml\n'
-    pri = {'index.html': '1.0', 'services.html': '0.9', 'packages.html': '0.9', 'portfolio.html': '0.8', 'contact.html': '0.8', 'about.html': '0.7'}
+    pri = {'index.html': '1.0', 'services.html': '0.9', 'packages.html': '0.9', 'portfolio.html': '0.8', 'reviews.html': '0.7', 'contact.html': '0.8', 'about.html': '0.7'}
     urls = ''.join(f'  <url><loc>{SITE}/{"" if f == "index.html" else f}</loc><lastmod>{PAGE_DATE.get(f, "2026-11-25")}</lastmod><priority>{pri.get(f, "0.3" if f in ("privacy.html", "terms.html") else "0.6")}</priority></url>\n' for f in sorted(BUILT, key=lambda f: -float(pri.get(f, "0.3" if f in ("privacy.html", "terms.html") else "0.6"))))
     io.open(f'{ROOT}/sitemap.xml', 'w', encoding='utf-8', newline='\n').write(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')

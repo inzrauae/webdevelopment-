@@ -231,7 +231,7 @@ if (sheet && sheetBtn) {
 }
 
 // Swipeable card rows with dot indicators (mobile)
-document.querySelectorAll('.feature-grid, .t-grid, .price-grid, .wt-grid, .wt-steps, .seo-grid, .value-grid, .proc-grid, .pg-index .pf-grid, .blog-grid:not(.pg-blog .blog-grid)').forEach(row => {
+document.querySelectorAll('.feature-grid, .t-grid:not(.pg-reviews .t-grid), .price-grid, .wt-grid, .wt-steps, .seo-grid, .value-grid, .proc-grid, .pg-index .pf-grid, .blog-grid:not(.pg-blog .blog-grid)').forEach(row => {
   const items = [...row.children];
   if (items.length < 2) return;
   row.classList.add('swipe');
