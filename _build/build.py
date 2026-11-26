@@ -367,7 +367,7 @@ def page(file, title, desc, body, active=None, faqs=None, crumb=None, ld_extra=N
                          'founder': {'@id': f'{SITE}/#founder'}, 'sameAs': [FACEBOOK, 'https://seoservice.lk/']})
     data = [org]
     if file == 'index.html':
-        data.append({'@context': 'https://schema.org', '@type': 'WebSite', 'name': 'Web Development Sri Lanka', 'inLanguage': 'en-LK',
+        data.append({'@context': 'https://schema.org', '@type': 'WebSite', 'name': 'Web Development Sri Lanka', 'alternateName': ['WebDevelopment.lk', 'Web Development LK'], 'inLanguage': 'en-LK',
                      **({'@id': f'{SITE}/#website', 'url': f'{SITE}/', 'publisher': {'@id': f'{SITE}/#business'}} if SITE else {})})
     if file in ('index.html', 'about.html'): data.append(person_ld())
     if crumb and SITE:
@@ -400,6 +400,9 @@ def page(file, title, desc, body, active=None, faqs=None, crumb=None, ld_extra=N
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="format-detection" content="telephone=no" />
   <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png" />
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
   <meta name="geo.region" content="LK" />

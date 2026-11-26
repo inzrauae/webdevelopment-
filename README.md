@@ -27,5 +27,5 @@ When you change `css/style.css` or `js/main.js`, raise `CSSV` or `JSV` at the to
 ### cPanel cron job (hourly auto-deploy)
 
 ```
-15 * * * * cd /home/webseodevlop/repositories/webdevelopment- && /usr/local/cpanel/3rdparty/bin/git pull -q origin main && /bin/cp -f *.html .htaccess robots.txt sitemap.xml llms.txt manifest.webmanifest sw.js /home/webseodevlop/public_html/ && /bin/cp -R css js images /home/webseodevlop/public_html/
+15 * * * * cd /home/webseodevlop/repositories/webdevelopment- && /usr/local/cpanel/3rdparty/bin/git pull -q origin main && /bin/cp -f *.html .htaccess robots.txt sitemap.xml llms.txt manifest.webmanifest sw.js favicon.ico favicon.svg /home/webseodevlop/public_html/ && /bin/cp -R css js images /home/webseodevlop/public_html/
 ```

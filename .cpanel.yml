@@ -5,5 +5,5 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/webseodevlop/public_html/
     - /bin/cp -f *.html $DEPLOYPATH
-    - /bin/cp -f .htaccess robots.txt sitemap.xml llms.txt manifest.webmanifest sw.js $DEPLOYPATH
+    - /bin/cp -f .htaccess robots.txt sitemap.xml llms.txt manifest.webmanifest sw.js favicon.ico favicon.svg $DEPLOYPATH
     - /bin/cp -R css js images $DEPLOYPATH
