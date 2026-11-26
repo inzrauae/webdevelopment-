@@ -93,6 +93,7 @@ PROJECTS = [
   ("rblmarketingagency", "RBL Marketing Agency Platform", "https://rblmarketingagency.com/", "rblmarketingagency.com", "webapp", "Web Platform", "Social media engagement platform where members complete simple daily tasks and withdraw earnings to local banks."),
   ("seoservice", "seoservice.lk", "https://seoservice.lk/", "seoservice.lk", "corporate", "SEO Services", "SEO specialist website for Sri Lanka with services, case studies, pricing and a free SEO audit request."),
   ("uphonerepair", "&Uuml;Phone Repair", "http://uphonerepair.com/", "uphonerepair.com", "booking", "Repair Booking", "Same-day iPhone, iPad, Samsung and computer repair website with online repair booking and a blog."),
+  ("manazelalreyada", "Manazel Al Reyada", "https://manazelalreyada.com/", "manazelalreyada.com", "corporate", "Facility Management", "Bilingual English and Arabic website for a Dubai facility management company offering AC, cleaning, plumbing, carpentry and electrical maintenance."),
 ]
 NAMES = {p[0]: p[1] for p in PROJECTS}
 

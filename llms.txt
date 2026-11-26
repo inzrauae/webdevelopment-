@@ -16,7 +16,7 @@
 - Prices: starter business website from LKR 20,000; business website with CMS from LKR 30,000; e-commerce website from LKR 39,000; custom web applications quoted per project
 - Every package includes a mobile-friendly design, on-page SEO, free SSL and first-year hosting
 - Services: Website Design; E-Commerce Websites; Web Applications; UI / UX Design; SEO & Digital Marketing; Hosting & Maintenance
-- Portfolio: 22 live client websites, including SpeedTech IT Solutions (speedtech.lk), Last Solution (Pvt) Ltd (lastsolution.lk), CODEX Global (officialcodex.com), Island Tours Ceylon (islandtoursceylon.com), Ruvinara Gems & Jewellery (ruvinara.com), Lanka Tour Driver (lankatourdriver.com), DAG Tech Solutions (dagtech.lk), dooo (dooo.lk), Merchlist (themerchlist.com), PALMFIT (mypalmfit.com)
+- Portfolio: 23 live client websites, including SpeedTech IT Solutions (speedtech.lk), Last Solution (Pvt) Ltd (lastsolution.lk), CODEX Global (officialcodex.com), Island Tours Ceylon (islandtoursceylon.com), Ruvinara Gems & Jewellery (ruvinara.com), Lanka Tour Driver (lankatourdriver.com), DAG Tech Solutions (dagtech.lk), dooo (dooo.lk), Merchlist (themerchlist.com), PALMFIT (mypalmfit.com)
 
 ## Main pages
 
@@ -43,6 +43,7 @@
 - [Hotel & Villa Website Design Sri Lanka | Direct Bookings](https://webdevelopment.lk/hotel-website-design-sri-lanka): Hotel and villa website design in Sri Lanka: the features, photos, booking options and SEO that help hotels, villas and tour operators win more direct bookings.
 - [Web Development in Sri Lanka: Web Apps, POS & Booking](https://webdevelopment.lk/web-development-sri-lanka): A guide to web development in Sri Lanka: custom web applications, POS and inventory systems, booking systems, customer portals, how projects work and what they cost.
 - [Web Design Packages in Sri Lanka: What You Get at Each Price](https://webdevelopment.lk/web-design-packages-sri-lanka): Compare web design packages in Sri Lanka: what a starter, business and e-commerce package includes, what costs extra, and how to choose the right one.
+- [Website Maintenance in Sri Lanka: What It Includes and Why](https://webdevelopment.lk/website-maintenance-sri-lanka): What website maintenance includes, why it matters for security, speed and SEO, and how to choose a maintenance plan for your Sri Lankan business website.
 
 ## Frequently asked questions
 
